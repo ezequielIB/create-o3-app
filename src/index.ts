@@ -154,12 +154,22 @@ async function main() {
   printTitle();
 
   const program = new Command();
+
   program
     .name("create-o3-app")
     .description("Create a new o3 stack project with beautiful prompts!")
     .option("-n, --project-name <name>", "Project name")
-    .option("--better-auth", "Include betterAuth")
-    .option("--no-better-auth", "Do not include betterAuth")
+    .option(
+      "--auth <type>",
+      "Authentication type: authjs, better-auth, none",
+      (value) => {
+        const v = value.toLowerCase();
+        if (["authjs", "better-auth", "none"].includes(v)) return v;
+        throw new Error(
+          `Invalid auth type: ${value}. Valid options: authjs, better-auth, none.`
+        );
+      }
+    )
     .option("--drizzle-orm", "Include DrizzleORM")
     .option("--no-drizzle-orm", "Do not include DrizzleORM")
     .option("--orpc", "Include oRPC")
@@ -172,9 +182,24 @@ async function main() {
     .parse(process.argv);
 
   const opts = program.opts();
+  // Map CLI auth string to AuthType enum
+  let auth: AuthType | undefined = undefined;
+  if (opts.auth) {
+    switch (opts.auth) {
+      case "authjs":
+        auth = AuthType.AUTHJS;
+        break;
+      case "better-auth":
+        auth = AuthType.BETTER_AUTH;
+        break;
+      case "none":
+        auth = AuthType.NONE;
+        break;
+    }
+  }
   const args: O3StackOptions = {
     projectName: opts.projectName,
-    auth: opts.auth, // TODO: Add --auth CLI option in the future
+    auth,
     drizzleORM: opts.drizzleOrm,
     oRPC: opts.orpc,
     git: opts.git,
