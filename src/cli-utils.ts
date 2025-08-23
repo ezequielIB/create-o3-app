@@ -117,6 +117,21 @@ export async function askProjectInfo(
     });
   }
 
+  if (args.db === undefined && args.drizzleORM !== false) {
+    questions.push({
+      type: (prev, values) => {
+        // Only ask if drizzleORM was enabled
+        if (values.drizzleORM === true) return "toggle";
+        return null; // skip this prompt
+      },
+      name: "db",
+      message: pastelBlue("🗃️ Generate a database?"),
+      initial: true,
+      active: "yes",
+      inactive: "no",
+    });
+  }
+
   if (args.oRPC === undefined) {
     questions.push({
       type: "toggle",

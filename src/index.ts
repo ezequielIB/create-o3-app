@@ -15,18 +15,20 @@ import path from "node:path";
 import { copyTemplateDir } from "../utils/copy";
 import { fileURLToPath } from "node:url";
 import { mergePackageJson } from "../utils/merge-partials.js";
+import { createEphemeralDb } from "./get-db.js";
+import { createEnv } from "./write-env.js";
 
-function getCurrentDir() {
+function getCurrentDir(): string {
   return path.dirname(fileURLToPath(import.meta.url));
 }
 
 // Template copying helper
 async function copyTemplateWithPartials(
-  templatePath,
-  target,
-  answers,
-  partials
-) {
+  templatePath: string,
+  target: string,
+  answers: O3StackAnswers,
+  partials: string[]
+): Promise<void> {
   await copyTemplateDir(templatePath, target, answers);
 
   const partialPath = path.join(templatePath, "package.partial.json");
@@ -34,9 +36,45 @@ async function copyTemplateWithPartials(
     partials.push(partialPath);
   }
 }
+// DrizzleORM template handling
+async function handleDrizzleTemplates(
+  answers: O3StackAnswers,
+  target: string,
+  partials: string[],
+  envVariables: Record<string, string>
+): Promise<void> {
+  if (!answers.drizzleORM) return;
+  const drizzlePath = path.resolve(
+    getCurrentDir(),
+    "../templates/drizzle/base"
+  );
+  await copyTemplateWithPartials(drizzlePath, target, answers, partials);
+
+  console.log("Generating a temporary Neon database...");
+  const tempUrl = answers.db
+    ? await createEphemeralDb(target)
+    : "postgres://user:password@localhost:5432/mydb";
+  envVariables.DATABASE_URL = tempUrl;
+}
+
+// Generate a random secret key
+function generateRandomSecret(length: number = 48): string {
+  return Buffer.from(
+    Array.from({ length: Math.ceil(length * 0.75) }, () =>
+      Math.floor(Math.random() * 256)
+    )
+  )
+    .toString("base64")
+    .slice(0, length);
+}
 
 // Auth template handling
-async function handleAuthTemplates(answers, target, partials) {
+async function handleAuthTemplates(
+  answers: O3StackAnswers,
+  target: string,
+  partials: string[],
+  envVariables?: Record<string, string>
+): Promise<void> {
   if (answers.auth === AuthType.NONE) return;
 
   const authTypeMap = {
@@ -60,10 +98,23 @@ async function handleAuthTemplates(answers, target, partials) {
     );
     await copyTemplateWithPartials(authDrizzlePath, target, answers, partials);
   }
+
+  // Set secret env variable if envVariables is provided
+  if (envVariables) {
+    if (answers.auth === AuthType.BETTER_AUTH) {
+      envVariables.BETTER_AUTH_SECRET = generateRandomSecret();
+    } else if (answers.auth === AuthType.AUTHJS) {
+      envVariables.AUTH_SECRET = generateRandomSecret();
+    }
+  }
 }
 
 // oRPC template handling
-async function handleOrpcTemplates(answers, target, partials) {
+async function handleOrpcTemplates(
+  answers: O3StackAnswers,
+  target: string,
+  partials: string[]
+): Promise<void> {
   if (!answers.oRPC) return;
 
   const orpcBasePath = path.resolve(getCurrentDir(), "../templates/orpc/base");
@@ -79,7 +130,10 @@ async function handleOrpcTemplates(answers, target, partials) {
 }
 
 // Git initialization
-async function handleGitInit(answers, target) {
+async function handleGitInit(
+  answers: O3StackAnswers,
+  target: string
+): Promise<void> {
   if (!answers.git) return;
 
   console.log(`\nInitializing git in ${target}...`);
@@ -95,7 +149,10 @@ async function handleGitInit(answers, target) {
 }
 
 // Dependency installation
-async function handleDependencyInstallation(answers, target) {
+async function handleDependencyInstallation(
+  answers: O3StackAnswers,
+  target: string
+): Promise<void> {
   const { withSpinner } = await import("./spinner.js");
 
   const installCommands = {
@@ -132,7 +189,7 @@ async function handleDependencyInstallation(answers, target) {
 }
 
 // Project directory validation and setup
-function setupProjectDirectory(answers) {
+function setupProjectDirectory(answers: O3StackAnswers): string {
   const dir = path.basename(answers.projectName);
   if (existsSync(dir) && readdirSync(dir).length > 0) {
     console.error(
@@ -150,7 +207,7 @@ function setupProjectDirectory(answers) {
   return target;
 }
 
-async function main() {
+async function main(): Promise<void> {
   printTitle();
 
   const program = new Command();
@@ -215,6 +272,10 @@ async function main() {
   // Initialize partials array for tracking package.partial.json files
   const partials: string[] = [];
 
+  // Initialize Env holder to recreate the .env later on
+
+  const envVariables: Record<string, string> = {};
+
   // Scaffold base template
   const templateDir = path.resolve(getCurrentDir(), "../templates/base");
   await copyTemplateDir(templateDir, target, {
@@ -231,16 +292,10 @@ async function main() {
   }
 
   // Handle DrizzleORM
-  if (answers.drizzleORM) {
-    const drizzlePath = path.resolve(
-      getCurrentDir(),
-      "../templates/drizzle/base"
-    );
-    await copyTemplateWithPartials(drizzlePath, target, answers, partials);
-  }
+  await handleDrizzleTemplates(answers, target, partials, envVariables);
 
   // Handle authentication templates
-  await handleAuthTemplates(answers, target, partials);
+  await handleAuthTemplates(answers, target, partials, envVariables);
 
   // Handle oRPC templates
   await handleOrpcTemplates(answers, target, partials);
@@ -254,10 +309,14 @@ async function main() {
   // Handle dependency installation
   await handleDependencyInstallation(answers, target);
 
+  // Write .env file
+  console.log("\nCreating .env file...");
+  await createEnv(envVariables, target);
+
   printFinalMessage(answers);
 }
 
-function printFinalMessage(answers) {
+function printFinalMessage(answers: O3StackAnswers): void {
   console.log("\n" + chalk.green.bold("Installation successful!\n"));
   console.log(chalk.yellow.bold("Steps to begin:"));
   console.log(chalk.cyan(`  cd ${answers.projectName}`));

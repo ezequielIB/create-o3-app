@@ -21,6 +21,7 @@ export interface O3StackOptions {
   git?: boolean;
   docker?: boolean;
   runTime?: RunTime;
+  db?: boolean;
 }
 
 export interface O3StackAnswers extends O3StackOptions {
