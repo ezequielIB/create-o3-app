@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@auth/drizzle-adapter": "^1.10.0"
+  }
+}

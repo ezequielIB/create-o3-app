@@ -1,0 +1,31 @@
+{
+  "name": "o3-stack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "create-o3-app": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts"
+  },
+  "dependencies": {
+    "chalk": "^5.6.0",
+    "commander": "^12.0.0",
+    "degit": "^2.8.4",
+    "execa": "^9.3.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^12.9.3",
+    "ora": "^8.2.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsup": "^8.1.0",
+    "typescript": "^5.6.2"
+  },
+  "keywords": [],
+  "author": "TonyArtZ4",
+  "license": "ISC",
+  "type": "module"
+}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@orpc/client": "^1.8.3",
+    "@orpc/server": "^1.8.3"
+  }
+}
