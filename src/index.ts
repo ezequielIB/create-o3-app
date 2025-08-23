@@ -9,6 +9,7 @@ import {
   RunTime,
 } from "../types";
 import { execa } from "execa";
+import chalk from "chalk";
 import { existsSync, readdirSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { copyTemplateDir } from "../utils/copy";
@@ -126,29 +127,8 @@ async function handleDependencyInstallation(answers, target) {
   await withSpinner(installConfig.message, async () => {
     await execa(installConfig.command, installConfig.args, {
       cwd: target,
-      stdio: "inherit",
     });
   });
-}
-
-// Display final selections
-function displaySelections(answers) {
-  const shownKeys = [
-    "projectName",
-    "auth",
-    "drizzleORM",
-    "oRPC",
-    "git",
-    "docker",
-    "runTime",
-  ];
-
-  console.log("\nYour selections:");
-  for (const key of shownKeys) {
-    if (answers[key] !== undefined && answers[key] !== null) {
-      console.log(`  ${key}: ${answers[key]}`);
-    }
-  }
 }
 
 // Project directory validation and setup
@@ -248,6 +228,31 @@ async function main() {
 
   // Handle dependency installation
   await handleDependencyInstallation(answers, target);
+
+  printFinalMessage(answers);
+}
+
+function printFinalMessage(answers) {
+  console.log("\n" + chalk.green.bold("Installation successful!\n"));
+  console.log(chalk.yellow.bold("Steps to begin:"));
+  console.log(chalk.cyan(`  cd ${answers.projectName}`));
+  let runtimeCmd = "";
+  switch (answers.runTime) {
+    case "bun":
+      runtimeCmd = "bun run dev";
+      break;
+    case "pnpm":
+      runtimeCmd = "pnpm dev";
+      break;
+    case "yarn":
+      runtimeCmd = "yarn dev";
+      break;
+    default:
+      runtimeCmd = "npm run dev";
+  }
+  console.log(chalk.cyan(`  ${runtimeCmd}`));
+  console.log(chalk.cyan("  edit app/page.tsx"));
+  console.log("\n" + chalk.green.bold("Happy coding! 🚀\n"));
 }
 
 main();
