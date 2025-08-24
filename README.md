@@ -1,5 +1,5 @@
 # create-o3-app
-![preview](https://res.cloudinary.com/tonyartz/image/upload/v1755974262/title_l6rwad.png)
+![preview](https://res.cloudinary.com/tonyartz/image/upload/v1756013646/carbon_5_1_ghaewc.png)
 <div align="center">
   <h3>🫧 The hip, bleeding-edge cousin of T3 Stack 🫧</h3>
   <p>
